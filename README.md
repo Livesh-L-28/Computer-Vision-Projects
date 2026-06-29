@@ -440,7 +440,7 @@ This project can be adapted for:
 
 **Your Name**
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/Livesh28
 
 ---
 
