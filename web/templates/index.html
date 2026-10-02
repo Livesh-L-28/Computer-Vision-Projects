@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Vision Intelligence Suite</title>
+  <meta name="description" content="Production Computer Vision Intelligence Suite: Aerial Combat, Airport Surface Tracking, and ANPR Intelligence Platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="hud-scanline"></div>
+  <div class="app-container">
+    
+    <!-- Top Bar -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="radar-dot"></div>
+        <h1>CV INTELLIGENCE <span class="highlight">SUITE</span></h1>
+        <span class="version-badge">v2.0 PROD</span>
+      </div>
+      <div class="system-status">
+        <span class="status-indicator" id="status-indicator"></span>
+        <span class="status-text" id="status-text">SYSTEM READY</span>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <div class="system-selector">
+      <button class="sys-tab active" id="tab-combat" data-system="combat">
+        <span class="tab-icon">✈️</span>
+        <div class="tab-meta">
+          <span class="tab-title">Air Combat Intelligence</span>
+          <span class="tab-desc">Kinematic Tracking & Threat Convergence</span>
+        </div>
+      </button>
+      <button class="sys-tab" id="tab-runway" data-system="runway">
+        <span class="tab-icon">🛫</span>
+        <div class="tab-meta">
+          <span class="tab-title">Airport Runway Surface</span>
+          <span class="tab-desc">Digital Twin & Incursion Alerts</span>
+        </div>
+      </button>
+      <button class="sys-tab" id="tab-anpr" data-system="anpr">
+        <span class="tab-icon">🚗</span>
+        <div class="tab-meta">
+          <span class="tab-title">License Plate ANPR</span>
+          <span class="tab-desc">Dual YOLOv8 + EasyOCR Recognition</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+      
+      <!-- Left Panel: Pipeline Controls -->
+      <section class="panel control-panel">
+        <div class="panel-header">
+          <h2>MISSION CONTROLLER</h2>
+          <span class="panel-tag" id="active-system-tag">AIR COMBAT</span>
+        </div>
+
+        <form id="pipeline-form" class="control-form">
+          <div class="form-group">
+            <label for="input-mode">INPUT SOURCE</label>
+            <div class="radio-toggle">
+              <label class="radio-label">
+                <input type="radio" name="input_mode" value="synthetic" id="mode-synthetic" checked>
+                <span>Synthetic Simulation</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="input_mode" value="upload" id="mode-upload">
+                <span>Upload Video</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group" id="upload-group" style="display: none;">
+            <label for="video-file">SELECT VIDEO FILE</label>
+            <input type="file" id="video-file" name="video_file" accept="video/mp4,video/avi,video/mov">
+          </div>
+
+          <div class="form-group">
+            <label for="frame-slider">EXECUTION LENGTH: <span id="frame-val">60</span> FRAMES</label>
+            <input type="range" id="frame-slider" min="30" max="180" value="60" step="15">
+          </div>
+
+          <div class="action-buttons">
+            <button type="submit" class="btn btn-primary" id="btn-run">
+              <span class="btn-glow"></span>
+              ▶ EXECUTE PIPELINE
+            </button>
+            <button type="button" class="btn btn-outline" id="btn-stream">
+              📡 LIVE VIDEO FEED
+            </button>
+          </div>
+        </form>
+
+        <!-- Live Telemetry Card -->
+        <div class="telemetry-box">
+          <div class="telemetry-header">
+            <h3>TELEMETRY METRICS</h3>
+            <span class="pulse-live">● ACTIVE</span>
+          </div>
+          <div class="telemetry-grid" id="telemetry-grid">
+            <div class="metric-card">
+              <span class="metric-label">STATUS</span>
+              <span class="metric-val" id="tele-status">IDLE</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">INFERENCE</span>
+              <span class="metric-val highlight" id="tele-device">APPLE MPS / GPU</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">FRAME PROGRESS</span>
+              <span class="metric-val" id="tele-progress">0 / 0</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">TRACKED TARGETS</span>
+              <span class="metric-val highlight-green" id="tele-targets">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Output & Visual Displays -->
+      <section class="panel viewport-panel">
+        <div class="panel-header">
+          <h2>TACTICAL VIEWPORT & INTELLIGENCE REPORT</h2>
+          <span class="panel-tag" id="viewport-state">LIVE FEED</span>
+        </div>
+
+        <div class="viewport-content" id="viewport-content">
+          <!-- Video Screen Container -->
+          <div class="video-container" id="video-container">
+            <video id="output-video-player" controls autoplay loop playsinline>
+              <source id="video-source" src="" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <img id="stream-player" style="display: none; width: 100%; height: 100%; object-fit: contain;" alt="Live Surveillance Stream">
+            <div class="video-overlay-msg" id="video-overlay-msg">
+              <div class="overlay-icon">🛰️</div>
+              <p>Ready to process visual intelligence.</p>
+              <span class="subtext">Click <strong>EXECUTE PIPELINE</strong> or <strong>LIVE VIDEO FEED</strong> to start.</span>
+            </div>
+          </div>
+
+          <!-- Artifact Downloads & Previews -->
+          <div class="artifacts-container" id="artifacts-container" style="display: none;">
+            <div class="artifact-card" id="heatmap-card">
+              <h4>ACTIVITY HEATMAP</h4>
+              <img id="heatmap-preview" src="" alt="Heatmap Preview">
+            </div>
+            <div class="artifact-card" id="dashboard-card">
+              <h4>MISSION ANALYTICS</h4>
+              <img id="dashboard-preview" src="" alt="Dashboard Preview">
+            </div>
+            <div class="artifact-card actions-card">
+              <h4>GENERATED ASSETS</h4>
+              <div class="artifact-actions">
+                <a id="btn-download-video" class="btn btn-outline" download>⬇ Video MP4</a>
+                <a id="btn-download-csv" class="btn btn-outline" download>⬇ Telemetry CSV</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

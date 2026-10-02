@@ -81,137 +81,50 @@ Analytics Engine
 Computer-Vision-Projects/
 │
 ├── air_combat_intelligence/
-│   ├── models/
 │   ├── src/
-│   ├── outputs/
-│   ├── reports/
-│   └── README.md
-│
-├── license_plate_intelligence/
-│   ├── models/
-│   ├── src/
-│   ├── outputs/
-│   ├── reports/
+│   │   ├── __init__.py
+│   │   └── main.py
 │   └── README.md
 │
 ├── airport_runway_intelligence/
-│   ├── models/
 │   ├── src/
-│   ├── outputs/
-│   ├── reports/
+│   │   ├── __init__.py
+│   │   └── main.py
+│   └── README.md
+│
+├── license_plate_intelligence/
+│   ├── src/
+│   │   ├── __init__.py
+│   │   └── main.py
 │   └── README.md
 │
 ├── common/
-│   ├── utils.py
+│   ├── __init__.py
+│   ├── config.py
 │   ├── tracker.py
-│   ├── visualization.py
-│   └── config.py
+│   ├── utils.py
+│   └── visualization.py
 │
+├── web/
+│   ├── server.py
+│   ├── templates/index.html
+│   └── static/
+│       ├── css/style.css
+│       └── js/app.js
+│
+├── models/
+│   └── license_plate_detector.pt
+│
+├── outputs/
+│   ├── air_combat/
+│   ├── airport_runway/
+│   └── license_plate/
+│
+├── main.py
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
-
----
-
-# ✈️ Air Combat Intelligence System
-
-## Overview
-
-The Air Combat Intelligence System analyzes aerial videos to detect aircraft, monitor movement, estimate trajectories, identify potential threats, and generate tactical intelligence visualizations.
-
----
-
-## Features
-
-* Aircraft Detection
-* Fighter Jet Recognition
-* Multi-Object Tracking
-* Flight Path Prediction
-* Threat Scoring
-* Airspace Monitoring
-* Heatmap Generation
-* Tactical Visualization
-* Annotated Video Output
-* Mission Analytics Dashboard
-
----
-
-## Output
-
-* Aircraft IDs
-* Flight Trajectories
-* Threat Levels
-* Airspace Heatmaps
-* Tactical Reports
-* Processed Videos
-
----
-
-# 🚗 License Plate Intelligence System
-
-## Overview
-
-This project focuses on intelligent traffic monitoring by detecting vehicles, extracting license plates using OCR, tracking vehicle movement, and producing traffic analytics.
-
----
-
-## Features
-
-* Vehicle Detection
-* License Plate Detection
-* OCR Recognition
-* Vehicle Tracking
-* Confidence Scoring
-* Vehicle Counting
-* Speed Estimation
-* Traffic Analytics
-* CSV Report Generation
-* Annotated Video Export
-
----
-
-## Output
-
-* Vehicle Database
-* Plate Numbers
-* Detection Confidence
-* Traffic Density
-* Vehicle Counts
-* Reports
-* Charts
-
----
-
-# 🛫 Airport Runway Intelligence System
-
-## Overview
-
-Designed for airport surveillance, this system monitors aircraft activity around runways, detects runway occupancy, analyzes taxi movements, and generates airport operational statistics.
-
----
-
-## Features
-
-* Aircraft Detection
-* Runway Occupancy Detection
-* Landing Detection
-* Takeoff Detection
-* Taxiway Monitoring
-* Aircraft Tracking
-* Airport Analytics
-* Occupancy Reports
-* Operational Dashboard
-
----
-
-## Output
-
-* Runway Usage
-* Aircraft Count
-* Landing Statistics
-* Taxi Routes
-* Airport Heatmaps
-* Daily Reports
 
 ---
 
@@ -219,17 +132,17 @@ Designed for airport surveillance, this system monitors aircraft activity around
 
 | Category             | Technologies         |
 | -------------------- | -------------------- |
-| Programming          | Python               |
+| Programming          | Python 3.9+          |
 | Computer Vision      | OpenCV               |
-| Detection            | YOLOv8 / YOLOv5      |
-| OCR                  | EasyOCR / Tesseract  |
+| Detection            | YOLOv8 (Ultralytics) |
+| OCR                  | EasyOCR              |
 | Numerical Computing  | NumPy                |
 | Data Analysis        | Pandas               |
 | Scientific Computing | SciPy                |
 | Visualization        | Matplotlib           |
 | Image Processing     | Pillow               |
-| Tracking             | DeepSORT / ByteTrack |
-| Dashboard            | Streamlit / Plotly   |
+| Tracking             | Unified Multi-Tracker|
+| Web & Dashboard      | FastAPI, Uvicorn     |
 
 ---
 
@@ -238,8 +151,7 @@ Designed for airport surveillance, this system monitors aircraft activity around
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/Computer-Vision-Projects.git
-
+git clone https://github.com/Livesh28/Computer-Vision-Projects.git
 cd Computer-Vision-Projects
 ```
 
@@ -247,19 +159,17 @@ cd Computer-Vision-Projects
 
 ## Create Virtual Environment
 
-Windows
+Windows:
 
 ```bash
 python -m venv venv
-
 venv\Scripts\activate
 ```
 
-Linux / macOS
+Linux / macOS:
 
 ```bash
 python3 -m venv venv
-
 source venv/bin/activate
 ```
 
@@ -275,29 +185,56 @@ pip install -r requirements.txt
 
 # ▶ Usage
 
-### Air Combat Intelligence
+### 🌐 1. Interactive Tactical Web Dashboard & API (Recommended)
+
+Launch the production web dashboard locally:
 
 ```bash
-python air_combat_intelligence/src/main.py \
---input sample.mp4
+python main.py --serve --port 8080
+```
+Open **[http://localhost:8080](http://localhost:8080)** in your browser to run live simulations, upload custom videos, view tactical HUD playback, and download generated telemetry reports and heatmaps!
+
+---
+
+### 💻 2. Unified Command-Line Interface (CLI)
+
+#### Air Combat Intelligence System:
+```bash
+# Run on a video file:
+python main.py --system combat --input sample.mp4
+
+# Run instant synthetic tactical simulation:
+python main.py --system combat --synthetic
+```
+
+#### Airport Runway Surface Perception:
+```bash
+# Run on a video file:
+python main.py --system runway --input airport.mp4
+
+# Run instant synthetic runway simulation:
+python main.py --system runway --synthetic
+```
+
+#### License Plate Intelligence (ANPR):
+```bash
+# Run on a video file or webcam:
+python main.py --system anpr --input traffic.mp4
+
+# Run instant synthetic traffic simulation:
+python main.py --system anpr --synthetic
 ```
 
 ---
 
-### License Plate Intelligence
+### 📦 3. Modular Direct Script Execution
+
+You can also run each standalone module directly:
 
 ```bash
-python license_plate_intelligence/src/main.py \
---input traffic.mp4
-```
-
----
-
-### Airport Runway Intelligence
-
-```bash
-python airport_runway_intelligence/src/main.py \
---input airport.mp4
+python air_combat_intelligence/src/main.py --input sample.mp4
+python airport_runway_intelligence/src/main.py --input airport.mp4
+python license_plate_intelligence/src/main.py --input traffic.mp4
 ```
 
 ---
